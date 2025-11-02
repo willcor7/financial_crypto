@@ -32,7 +32,16 @@ export interface Crypto {
   };
 }
 
-export interface CryptoDetail extends Crypto {
+export interface CryptoDetail {
+  id: string;
+  symbol: string;
+  name: string;
+  image: {
+    thumb: string;
+    small: string;
+    large: string;
+  };
+  market_cap_rank: number;
   description?: {
     en?: string;
   };
@@ -52,6 +61,9 @@ export interface CryptoDetail extends Crypto {
     atl: { [key: string]: number };
     market_cap: { [key: string]: number };
     total_volume: { [key: string]: number };
+    circulating_supply: number;
+    total_supply: number | null;
+    max_supply: number | null;
     price_change_percentage_24h: number;
     price_change_percentage_7d: number;
     price_change_percentage_30d: number;

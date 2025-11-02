@@ -43,7 +43,10 @@ export default function CryptoDetailPage() {
     );
   }
 
-  const isPositive = crypto.price_change_percentage_24h > 0;
+  const marketData = crypto.market_data;
+  const currentPrice = marketData?.current_price?.[currency] || 0;
+  const priceChange24h = marketData?.price_change_percentage_24h || 0;
+  const isPositive = priceChange24h > 0;
   const isInWatchlist = watchlist.includes(cryptoId);
 
   return (
@@ -62,7 +65,7 @@ export default function CryptoDetailPage() {
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Image
-              src={crypto.image}
+              src={crypto.image.large}
               alt={crypto.name}
               width={56}
               height={56}
@@ -100,7 +103,7 @@ export default function CryptoDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              {formatPrice(crypto.current_price, currency)}
+              {formatPrice(currentPrice, currency)}
             </div>
             <div className="flex items-center space-x-2">
               {isPositive ? (
@@ -108,8 +111,8 @@ export default function CryptoDetailPage() {
               ) : (
                 <ArrowDownRight className="h-5 w-5 text-red-500" />
               )}
-              <span className={`text-xl font-medium ${getColorClass(crypto.price_change_percentage_24h)}`}>
-                {formatPercentage(crypto.price_change_percentage_24h)}
+              <span className={`text-xl font-medium ${getColorClass(priceChange24h)}`}>
+                {formatPercentage(priceChange24h)}
               </span>
               <span className="text-gray-600 dark:text-gray-400">24h</span>
             </div>
@@ -119,25 +122,25 @@ export default function CryptoDetailPage() {
             <div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Market Cap</div>
               <div className="text-lg font-semibold text-gray-900 dark:text-white">
-                {formatMarketCap(crypto.market_cap, currency)}
+                {formatMarketCap(marketData?.market_cap?.[currency] || 0, currency)}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Volume 24h</div>
               <div className="text-lg font-semibold text-gray-900 dark:text-white">
-                {formatMarketCap(crypto.total_volume, currency)}
+                {formatMarketCap(marketData?.total_volume?.[currency] || 0, currency)}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">ATH</div>
               <div className="text-lg font-semibold text-gray-900 dark:text-white">
-                {formatPrice(crypto.ath, currency)}
+                {formatPrice(marketData?.ath?.[currency] || 0, currency)}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">ATL</div>
               <div className="text-lg font-semibold text-gray-900 dark:text-white">
-                {formatPrice(crypto.atl, currency)}
+                {formatPrice(marketData?.atl?.[currency] || 0, currency)}
               </div>
             </div>
           </div>
@@ -162,19 +165,19 @@ export default function CryptoDetailPage() {
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">Circulating Supply</span>
               <span className="font-medium text-gray-900 dark:text-white">
-                {formatSupply(crypto.circulating_supply)}
+                {formatSupply(marketData?.circulating_supply || 0)}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">Total Supply</span>
               <span className="font-medium text-gray-900 dark:text-white">
-                {formatSupply(crypto.total_supply)}
+                {formatSupply(marketData?.total_supply || null)}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">Max Supply</span>
               <span className="font-medium text-gray-900 dark:text-white">
-                {formatSupply(crypto.max_supply)}
+                {formatSupply(marketData?.max_supply || null)}
               </span>
             </div>
           </div>
