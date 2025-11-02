@@ -16,7 +16,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className="antialiased bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (theme === 'dark' || (!theme && prefersDark)) {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="antialiased bg-gray-50 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
         <Providers>
           <div className="flex flex-col min-h-screen">
             <Header />
