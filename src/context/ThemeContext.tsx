@@ -24,14 +24,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     setThemeState(initialTheme);
-    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+
+    if (initialTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
     if (typeof window !== 'undefined') {
       localStorage.setItem('theme', newTheme);
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
+
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   };
 
