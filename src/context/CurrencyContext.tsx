@@ -24,13 +24,12 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
 
   const setCurrency = (newCurrency: Currency) => {
     setCurrencyState(newCurrency);
-    localStorage.setItem('currency', newCurrency);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('currency', newCurrency);
+    }
   };
 
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
+  // Toujours rendre le Provider, même pendant le SSR
   return (
     <CurrencyContext.Provider value={{ currency, setCurrency }}>
       {children}
