@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  /* Enable dark mode with class strategy */
+  --color-*: initial;
+
+  /* Use system fonts */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+}
